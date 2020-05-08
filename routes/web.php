@@ -11,6 +11,7 @@
 |
 */
 
+Route::get('/home', 'HomeController@index')->name('home');
 Route::view('/{any}', 'spa')->where('any', '.*');
 
 Route::get('/', function () {
@@ -19,7 +20,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 require __DIR__.'/web_routes/user.php';
 

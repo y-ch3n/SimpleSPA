@@ -23,6 +23,37 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        // Dynamo DB
+        $params = [
+            'TableName' => 'Users',
+            'KeySchema' => [
+                [
+                    'AttributeName' => 'year',
+                    'KeyType' => 'HASH'  //Partition key
+                ],
+                [
+                    'AttributeName' => 'title',
+                    'KeyType' => 'RANGE'  //Sort key
+                ]
+            ],
+            'AttributeDefinitions' => [
+                [
+                    'AttributeName' => 'year',
+                    'AttributeType' => 'N'
+                ],
+                [
+                    'AttributeName' => 'title',
+                    'AttributeType' => 'S'
+                ],
+
+            ],
+            'ProvisionedThroughput' => [
+                'ReadCapacityUnits' => 10,
+                'WriteCapacityUnits' => 10
+            ]
+        ];
+        \BaoPham\DynamoDb\Facades\DynamoDb::client()->createTable();
     }
 
     /**
